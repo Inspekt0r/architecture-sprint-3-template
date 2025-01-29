@@ -1,0 +1,21 @@
+@startuml
+title Тёплый дом диаграмма контейнеров
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+Person(user, "User", "Пользователь нашей системы")
+System(WarmHome, "Тёплый дом", "Получение синхронных REST запросов,\nобработка и хранение/чтение информации с датчиков")
+
+Container_Boundary(WarmHome, "Тёплый дом") {
+  Container(Monolith, "наш монолит", "Java, SpringBoot", "Обработка запросов пользователя")
+  Container(Database, "Database", "PostgreSQL", "Хранение данных с датчиков")
+}
+
+System_Ext(sensors, "Датчики клиентов", "внешние датчики установленные у клиентов дома")
+
+Rel(user, Monolith, "Пользователь")
+Rel(Monolith,Database,"Чтение/Запись данных с датчиков")
+Rel(Monolith,sensors,"Получение/передача данных от/к датчикам")
+@enduml

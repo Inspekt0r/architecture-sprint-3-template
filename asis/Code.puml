@@ -1,0 +1,30 @@
+@startuml
+title Тёплый дом, диаграмма кода
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+entity HeatingSystem {
+  +Long id
+  +Boolean isOn
+  +Double targetTemperature
+  +Double currentTemperature
+}
+
+entity TemperatureSensor {
+  +Long id
+  +Double targetTemperature
+  +Date lastUpdated
+}
+
+class HeatingSystemDto {
+  +Long id
+  +Boolean isOn
+  +Double targetTemperature
+  +Double currentTemperature
+}
+
+HeatingSystem --> HeatingSystemDto
+
+@enduml
