@@ -1,0 +1,42 @@
+@startuml
+
+entity User {
+  * Long id
+  --
+  +Role role
+  +Date creationDateTime
+  +String email
+  +char[] password
+}
+
+entity Home{
+  * Long id
+  --
+  +String address
+  +Long userOwnerId
+}
+
+entity "Device" {
+  * Long id
+  --
+  +DeviceType deviceType
+  +Long userOwnerId
+  +Long homeId
+}
+
+entity TelemetryData {
+  * Long id
+  --
+  +Long deviceId
+  +Boolean isOn
+  +Double targetTemperature
+  +Double currentTemperature
+  +Data timeStamp
+}
+
+User ||--o{ Home
+User ||--o{ Device
+Home ||--o{ Device
+Device ||--o{ TelemetryData
+
+@enduml
