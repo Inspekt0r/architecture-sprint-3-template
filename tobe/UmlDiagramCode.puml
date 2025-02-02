@@ -1,0 +1,27 @@
+@startuml
+actor "Пользователь" as User
+actor "Админ" as Admin
+actor "Технический специалист" as TechSpecialist
+
+boundary "WebAPP" as WebApp
+control "Gateway API" as GatewayAPI
+control "AuthService" as AuthService
+control "DeviceService" as DeviceService
+control "DeviceAdapter" as DeviceAdapter
+
+User -> WebApp
+Admin -> WebApp
+TechSpecialist -> WebApp
+
+WebApp -> GatewayAPI : REST API запрос
+GatewayAPI ->> AuthService : Авторизация (Kafka)
+AuthService -->> GatewayAPI : Ответ авторизации
+
+GatewayAPI ->> DeviceService : Запрос к устройству (Kafka)
+DeviceService ->> DeviceAdapter : Взаимодействие (Kafka)
+DeviceAdapter -> "Внешние устройства" : Modbus/EtherCAT и др.
+
+DeviceAdapter -->> DeviceService : Ответ от устройства
+DeviceService -->> GatewayAPI : Ответ от устройства
+GatewayAPI --> WebApp : Ответ от устройства
+@enduml

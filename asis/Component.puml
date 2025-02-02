@@ -1,0 +1,25 @@
+@startuml
+title «Тёплый дом» компонентная диаграмма
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+Container_Boundary(WarmHomeSystem, "Устройство сервиса тёплый дом") {
+  Container(Monolith, "AS IS Monolith", "Java, Spring", "Обработка запросов пользователя")
+  Container(Database, "Database", "PostgreSQL", "Хранение информации о нагревателях и датчиках температур")
+}
+
+Container(Monolith, "AS IS Monolith", "Java, Spring") {
+  Component(HeatingSystemController, "HeatingSystemController", "Обработка запросов пользователя на вкл/выкл нагревателя, проверку и установку температуры")
+  Component(HeatingSystemService, "HeatingSystemService", "Сервисный слой - бизнес логика")
+  Component(HeatingSystemRepository, "Heating System Repository", "Доступ к данным по нагревательным приборам")
+  Component(TemperatureSensorRepository, "Temperature Sensor Repository", "Доступ к данным температурных датчиков")
+}
+
+Rel(HeatingSystemController,HeatingSystemService,"Calls business logic")
+Rel(HeatingSystemService,HeatingSystemRepository,"Чтение/запись данных")
+Rel(HeatingSystemService,TemperatureSensorRepository,"")
+Rel(HeatingSystemRepository,Database,"Чтение/запись данных с устройств/датчиков")
+Rel(TemperatureSensorRepository,Database,"")
+@enduml

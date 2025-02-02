@@ -1,0 +1,20 @@
+@startuml
+title DeviceService - Component Diagram
+
+component "DeviceService" {
+    [ServiceLayer] --> [JpaRepository]
+    [JpaRepository] --> [DeviceDB]
+    [ServiceLayer] --> [Kafka Producer]
+    [Kafka Consumer] --> [ServiceLayer]
+}
+
+queue "device_service_topic" as DeviceTopic
+queue "device_adapter_topic" as AdapterTopic
+component "DeviceDB"
+
+[Kafka Producer] --> DeviceTopic
+[Kafka Producer] --> AdapterTopic
+DeviceTopic --> [Kafka Consumer]
+AdapterTopic --> [Kafka Consumer]
+
+@enduml

@@ -1,0 +1,22 @@
+@startuml
+title Тёплый дом, диаграмма кода для AuthService
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+entity User {
+  +Long id
+  +Role role
+  +Date creationDateTime
+  +String email
+  +char[] password
+}
+
+enum Role {
+    USER,
+    ADMIN,
+    SUPPORT
+}
+
+@enduml

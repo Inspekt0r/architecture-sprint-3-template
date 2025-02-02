@@ -1,0 +1,31 @@
+@startuml
+title Тёплый дом диаграмма контейнеров
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+Person(user, "User", "WebAPP")
+Person(admin, "Администратор", "WebAPP")
+Person(support, "Сотрудник техпода", "WebAPP")
+System(WarmHome, "Тёплый дом", "Микросервисы, стильно, модно, молодежно, а главное эффективно!")
+
+Container_Boundary(WarmHome, "Тёплый дом") {
+  Container(Gateway, "Gateway API", "Единая точка входа для всех пользователей")
+  Container(AuthService, "AuthService", "Сервис авторизации и регистрации")
+  Container(DeviceService, "DeviceService", "Сервис управления устройствами")
+  Container(DeviceAdapter, "DeviceAdapter", "Адаптер для внешних устройств клиентов")
+}
+
+System_Ext(sensors, "Датчики клиентов", "внешние датчики установленные у клиентов дома")
+
+Rel(user, Gateway, "               REST API")
+Rel(admin, Gateway, "")
+Rel(support, Gateway, "")
+
+Rel(Gateway, AuthService, "         kafka")
+Rel(Gateway, DeviceService, "")
+Rel(DeviceService, DeviceAdapter, "kafka")
+Rel(DeviceAdapter, sensors, "modbus,EtherCAT,powerlink и т.д.")
+
+@enduml

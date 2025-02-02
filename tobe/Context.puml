@@ -1,0 +1,20 @@
+@startuml
+title «Тёплый дом» контекстная диаграмма
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+Person(user, "Пользователь", "Пользователь нашей системы")
+Person(admin, "Администратор", "Администратор")
+Person(support, "Техпод", "Сотрудник технической поддержки")
+System(WarmHome, "Микросервисный Тёплый дом", "Авторизация/Регистрация, личный кабинет, управление устройствами")
+
+System_Ext(sensors, "Датчики клиентов", "внешние датчики установленные у клиентов дома")
+
+Rel(user, WarmHome, "")
+Rel(admin, WarmHome, "REST API")
+Rel(support, WarmHome, "")
+Rel(WarmHome,sensors,"modbus или другой протокол связи с датчиком")
+
+@enduml

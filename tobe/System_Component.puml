@@ -1,0 +1,28 @@
+@startuml
+title «Тёплый дом» компонентная диаграмма
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+System(WarmHome, "Тёплый дом", "Микросервисы, стильно, модно, молодежно, а главное эффективно!")
+
+Container_Boundary(WarmHome, "Тёплый дом") {
+  Container(Gateway, "Gateway API", "Java, Spring Boot", "Единая точка входа для всех пользователей")
+  Container(AuthService, "AuthService", "Java, Spring Boot", "Сервис авторизации и регистрации")
+  Container(DeviceService, "DeviceService", "Java, Spring Boot", "Сервис управления устройствами")
+  Container(Kafka, "Apache Kafka", "Kafka", "Брокер сообщений")
+  Container(AuthDatabase, "Database AuthService", "PostgreSQL", "Хранение данных о пользователях")
+  Container(DeviceDatabase, "Database DeviceService", "PostgreSQL", "Хранение данных об устройствах")
+  Container(DeviceAdapter, "DeviceAdapter", "Java, Spring Boot", "Адаптер для внешних устройств клиентов")
+}
+
+Rel(Gateway, Kafka, "auth_service_topic")
+Rel(Gateway, Kafka, "device_service_topic")
+Rel(Kafka, AuthService, "auth_service_topic")
+Rel(Kafka, DeviceService, "device_service_topic device_adapter_topic")
+
+Rel(AuthService,AuthDatabase,"Чтение/Запись данных с датчиков")
+Rel(DeviceService,DeviceDatabase,"Чтение/Запись данных с датчиков")
+Rel(Kafka,DeviceAdapter,"device_adapter_topic")
+@enduml

@@ -1,0 +1,56 @@
+@startuml
+title Тёплый дом, диаграмма кода для DeviceService
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+entity Device {
+  +Long id
+  +DeviceType deviceType
+  +Long userOwnerId
+  +Long homeId
+}
+
+enum DeviceType {
+    HEATING,
+    TEMPERATURE_SENSOR
+}
+
+entity Home {
+   +Long id
+   +String address
+   +Long userOwnerId
+}
+
+entity TelemetryData {
+  +Long id
+  +Long deviceId
+  +Boolean isOn
+  +Double targetTemperature
+  +Double currentTemperature
+  +Data timeStamp
+}
+
+class TelemetryDataDto {
+  +Boolean isOn
+  +Double targetTemperature
+  +Double currentTemperature
+  +Data timeStamp
+}
+
+class DeviceDto {
+  +Long id
+  +DeviceType deviceType
+  +Boolean isOn
+  +Double targetTemperature
+  +Double currentTemperature
+  +String homeAddress
+  +List<TelemetryDataDto> telemetryData
+}
+
+Home "1" -- "0..*" Device
+Device "1" -- "0..*" TelemetryData
+
+
+@enduml

@@ -1,0 +1,12 @@
+@startuml
+title Тёплый дом, диаграмма топиков Kafka шины
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+circle auth_service_topic
+circle device_service_topic
+circle device_adapter_topic
+
+@enduml
