@@ -1,0 +1,17 @@
+@startuml
+title AuthService - Component Diagram
+
+component "AuthService" {
+    [ServiceLayer] --> [JpaRepository]
+    [JpaRepository] --> [AuthDB]
+    [ServiceLayer] --> [Kafka Producer]
+    [Kafka Consumer] --> [ServiceLayer]
+}
+
+queue "auth_service_topic" as AuthTopic
+
+[Kafka Producer] --> AuthTopic
+AuthTopic --> [Kafka Consumer]
+
+
+@enduml

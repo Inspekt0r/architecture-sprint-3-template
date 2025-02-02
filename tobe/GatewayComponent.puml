@@ -1,0 +1,18 @@
+@startuml
+title GatewayAPI - Component Diagram
+
+component "GatewayAPI" {
+    [RestController] --> [ServiceLayer]
+    [ServiceLayer] --> [Kafka Producer]
+    [Kafka Consumer] --> [ServiceLayer]
+}
+
+queue "auth_service_topic" as AuthTopic
+queue "device_service_topic" as DeviceTopic
+
+[Kafka Producer] --> AuthTopic
+[Kafka Producer] --> DeviceTopic
+AuthTopic --> [Kafka Consumer]
+DeviceTopic --> [Kafka Consumer]
+
+@enduml

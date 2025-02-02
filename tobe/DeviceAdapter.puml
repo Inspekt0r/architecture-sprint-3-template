@@ -1,0 +1,21 @@
+@startuml
+title DeviceAdapter - Component Diagram
+
+component "DeviceAdapter" {
+    [ServiceLayer] --> [Kafka Producer]
+    [Kafka Consumer] --> [ServiceLayer]
+    [ServiceLayer] --> [Protocol Handler]
+}
+
+component "Protocol Handler" {
+    [EtherCAT Client] --> [Protocol Handler]
+    [Modbus Client] --> [Protocol Handler]
+    [Other Protocols] --> [Protocol Handler]
+}
+
+queue "device_adapter_topic" as AdapterTopic
+
+[Kafka Producer] --> AdapterTopic
+AdapterTopic --> [Kafka Consumer]
+
+@enduml
